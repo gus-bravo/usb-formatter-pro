@@ -64,7 +64,7 @@ Write-Host ""
 Write-Host "⚙️ Formatting the USB drive... 🚀💾" -ForegroundColor Green
 Pause
 
-Start-Process diskpart -ArgumentList "/s `"$scriptPath`"" -Wait
+& diskpart /s "$scriptPath"
 
 # ✅ Clean up temporary script
 Remove-Item $scriptPath -Force
