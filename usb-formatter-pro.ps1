@@ -16,16 +16,6 @@ Write-Host ""
 Write-Host "🔍 Disks detected by PowerShell:" -ForegroundColor Cyan
 Get-Disk | Select-Object Number, FriendlyName, Size, PartitionStyle | Format-Table
 
-Write-Host ""
-Write-Host "💽 DiskPart will also open if you'd like to compare manually..." -ForegroundColor Cyan
-Pause
-
-Start-Process diskpart -Wait
-
-Write-Host ""
-Write-Host "✅ Close DiskPart and return here to continue." -ForegroundColor Yellow
-Pause
-
 # ✅ Ask for the disk number and validate input
 do {
     $disknum = Read-Host "🧠 Enter the disk number of your USB drive"
