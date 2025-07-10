@@ -38,6 +38,14 @@ Write-Host "Partition:  $($disk.PartitionStyle)"
 Write-Host ""
 Write-Host "⚠️ Make sure this is your USB drive and not another disk." -ForegroundColor Red
 
+# ✅ Ask for filesystem type
+$validFS = @('FAT32', 'exFAT', 'NTFS')
+do {
+    $fs = Read-Host "💾 Enter filesystem type (FAT32, exFAT, NTFS) [default: FAT32]"
+    if ([string]::IsNullOrWhiteSpace($fs)) { $fs = 'FAT32' }
+    $fs = $fs.ToUpper()
+} while ($validFS -notcontains $fs)
+
 # ✅ Confirm before proceeding
 $confirm = Read-Host "✏️ Type 'YES' to continue, or anything else to cancel"
 if ($confirm -ne "YES") {
@@ -45,14 +53,14 @@ if ($confirm -ne "YES") {
     exit
 }
 
-# ✅ Create temporary DiskPart script
+# ✅ Create temporary DiskPart script with selected filesystem
 $diskpartCommands = @"
 select disk $disknum
 clean
 create partition primary
 select partition 1
 active
-format fs=fat32 quick
+format fs=$($fs.ToLower()) quick
 assign
 "@
 
